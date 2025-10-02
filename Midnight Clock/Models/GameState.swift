@@ -54,7 +54,11 @@ class GameState: ObservableObject {
     }
     
     private func tick() {
-        guard !isPaused, !isGameOver else { return }
+        guard !isPaused, !isGameOver else {
+            // Update lastTickTime even when paused so we don't count paused time
+            lastTickTime = Date()
+            return
+        }
         
         let now = Date()
         guard let lastTick = lastTickTime else {

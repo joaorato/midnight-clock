@@ -55,6 +55,9 @@ struct GameView: View {
                 if gameState.isPaused {
                     Color.black.opacity(0.7)
                         .ignoresSafeArea()
+                        .onTapGesture {
+                            gameState.togglePause()
+                        }
                     
                     Text("PAUSED")
                         .font(.system(size: 60, weight: .bold))
