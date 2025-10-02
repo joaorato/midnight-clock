@@ -12,6 +12,7 @@ struct Midnight_ClockApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .persistentSystemOverlays(.hidden) // Hide system overlays
         }
     }
 }
