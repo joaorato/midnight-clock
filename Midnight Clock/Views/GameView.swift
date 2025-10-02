@@ -121,17 +121,24 @@ struct GameView: View {
         }
     }
     
-    // MARK: - 2 Player Layout (Left vs Right)
-    
+    // MARK: - 2 Player Layout (Top vs Bottom, facing each other)
+        
     private func twoPlayerLayout(in size: CGSize) -> some View {
-        HStack(spacing: 20) {
-            playerRectangle(for: 0, size: CGSize(width: size.width / 2 - 30, height: size.height - 40))
-                .rotationEffect(.degrees(90))
+        VStack(spacing: 0) {
+            // Top player (upside down)
+            ZStack {
+                playerRectangle(for: 0, size: CGSize(width: size.width - 40, height: size.height / 2 - 20))
+            }
+            .frame(width: size.width - 40, height: size.height / 2 - 20)
+            .rotationEffect(.degrees(180))
             
-            playerRectangle(for: 1, size: CGSize(width: size.width / 2 - 30, height: size.height - 40))
-                .rotationEffect(.degrees(-90))
+            // Bottom player (normal orientation)
+            ZStack {
+                playerRectangle(for: 1, size: CGSize(width: size.width - 40, height: size.height / 2 - 20))
+            }
+            .frame(width: size.width - 40, height: size.height / 2 - 20)
         }
-        .padding(20)
+        .frame(width: size.width, height: size.height)
     }
     
     // MARK: - 3 Player Layout (2 facing + 1 perpendicular)
