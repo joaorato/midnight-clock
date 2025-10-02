@@ -3,7 +3,7 @@ import SwiftUI
 
 struct SetupView: View {
     @State private var playerCount = 4
-    @State private var initialMinutes = 20
+    @State private var initialMinutes = 15
     @State private var playerNames: [String] = ["", "", "", "", "", ""]
     @State private var startingPlayerIndex = 0
     
@@ -33,19 +33,76 @@ struct SetupView: View {
                         .pickerStyle(.segmented)
                     }
                     
-                    // Starting Time
+                    // Starting Time with Quick Presets
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Starting Time (minutes)")
+                        Text("Starting Time")
                             .foregroundColor(.gray)
                         
-                        Picker("Time", selection: $initialMinutes) {
-                            Text("10 min").tag(10)
-                            Text("20 min").tag(20)
-                            Text("30 min").tag(30)
-                            Text("45 min").tag(45)
-                            Text("60 min").tag(60)
+                        // Quick preset buttons
+                        HStack(spacing: 10) {
+                            ForEach([5, 15, 30, 45, 60], id: \.self) { minutes in
+                                Button(action: {
+                                    initialMinutes = minutes
+                                }) {
+                                    Text("\(minutes)m")
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(initialMinutes == minutes ? .black : .white)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 8)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(initialMinutes == minutes ? Color.white : Color.gray.opacity(0.3))
+                                        )
+                                }
+                            }
                         }
-                        .pickerStyle(.segmented)
+                        
+                        // Custom time stepper
+                        HStack {
+                            Text("Custom:")
+                                .foregroundColor(.gray)
+                            
+                            Spacer()
+                            
+                            // Decrement button
+                            Button(action: {
+                                if initialMinutes > 1 {
+                                    initialMinutes -= 1
+                                }
+                            }) {
+                                Image(systemName: "minus.circle.fill")
+                                    .font(.title2)
+                                    .foregroundColor(.white)
+                            }
+                            
+                            // Time display/input
+                            Text("\(initialMinutes)")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .frame(minWidth: 60)
+                                .monospacedDigit()
+                            
+                            Text("min")
+                                .foregroundColor(.gray)
+                            
+                            // Increment button
+                            Button(action: {
+                                if initialMinutes < 120 {
+                                    initialMinutes += 1
+                                }
+                            }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.title2)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white.opacity(0.1))
+                        )
                     }
                     
                     // Player Names
