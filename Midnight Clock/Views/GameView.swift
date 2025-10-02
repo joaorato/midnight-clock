@@ -141,23 +141,35 @@ struct GameView: View {
         .frame(width: size.width, height: size.height)
     }
     
-    // MARK: - 3 Player Layout (2 facing + 1 perpendicular)
-    
+    // MARK: - 3 Player Layout (2 facing horizontally + 1 at bottom)
+        
     private func threePlayerLayout(in size: CGSize) -> some View {
-        HStack(spacing: 20) {
-            // Left player (perpendicular)
-            playerRectangle(for: 0, size: CGSize(width: size.width * 0.3 - 20, height: size.height - 40))
+        VStack(spacing: 0) {
+            // Top section: 2 players facing each other horizontally
+            HStack(spacing: 20) { // Added spacing of 20
+                // Left player (rotated 90° clockwise - facing right)
+                ZStack {
+                    playerRectangle(for: 0, size: CGSize(width: size.height * 0.66 - 20, height: size.width / 2 - 30))
+                }
+                .frame(width: size.width / 2 - 30, height: size.height * 0.66 - 20) // Adjusted width to account for spacing
                 .rotationEffect(.degrees(90))
-            
-            // Two facing players
-            VStack(spacing: 20) {
-                playerRectangle(for: 1, size: CGSize(width: size.width * 0.7 - 40, height: size.height / 2 - 30))
-                    .rotationEffect(.degrees(180))
                 
-                playerRectangle(for: 2, size: CGSize(width: size.width * 0.7 - 40, height: size.height / 2 - 30))
+                // Right player (rotated 90° counter-clockwise - facing left)
+                ZStack {
+                    playerRectangle(for: 1, size: CGSize(width: size.height * 0.66 - 20, height: size.width / 2 - 30))
+                }
+                .frame(width: size.width / 2 - 30, height: size.height * 0.66 - 20) // Adjusted width to account for spacing
+                .rotationEffect(.degrees(-90))
             }
+            .frame(height: size.height * 0.66 - 20)
+            
+            // Bottom player (normal orientation)
+            ZStack {
+                playerRectangle(for: 2, size: CGSize(width: size.width - 40, height: size.height * 0.34 - 20))
+            }
+            .frame(width: size.width - 40, height: size.height * 0.34 - 20)
         }
-        .padding(20)
+        .frame(width: size.width, height: size.height)
     }
     
     // MARK: - 4 Player Layout (2v2 facing)

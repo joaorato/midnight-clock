@@ -44,13 +44,13 @@ struct PlayerRectangleView: View {
                 
                 // Uptime icons
                 if !player.isEliminated {
-                    HStack(spacing: 20) {
+                    HStack(spacing: 15) {
                         ForEach(UptimeCategory.allCases, id: \.self) { category in
                             Button(action: { onTapUptime(category) }) {
                                 Image(systemName: category.iconName)
                                     .font(.title2)
                                     .foregroundColor(uptimeIconColor(for: category))
-                                    .frame(width: 44, height: 44)
+                                    .frame(width: 36, height: 36)
                                     .background(
                                         Circle()
                                             .fill(player.activeUptimeCategory == category ? Color.white.opacity(0.2) : Color.clear)
@@ -117,7 +117,7 @@ struct PlayerRectangleView: View {
     private var timerFontSize: CGFloat {
         // Scale font based on rectangle size
         let baseSize = min(size.width, size.height)
-        return baseSize * 0.25
+        return baseSize * 0.35
     }
     
     private func uptimeIconColor(for category: UptimeCategory) -> Color {
