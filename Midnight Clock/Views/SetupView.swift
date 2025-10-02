@@ -117,12 +117,14 @@ struct SetupView: View {
                             }
                         }
                     }
-                    .frame(maxHeight: 200)
+                    .frame(maxHeight: 300)
                     
-                    // Starting Player
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Starting Player")
+                    // Starting Player - now in a horizontal row
+                    HStack {
+                        Text("Starting Player:")
                             .foregroundColor(.gray)
+                        
+                        Spacer()
                         
                         Picker("Starting Player", selection: $startingPlayerIndex) {
                             ForEach(0..<playerCount, id: \.self) { index in
@@ -133,9 +135,7 @@ struct SetupView: View {
                         .pickerStyle(.menu)
                         .accentColor(.white)
                     }
-                    
-                    Spacer()
-                    
+                                        
                     Button(action: startGame) {
                         Text("Start Game")
                             .font(.title2)
