@@ -59,9 +59,15 @@ struct GameView: View {
                             gameState.togglePause()
                         }
                     
-                    Text("PAUSED")
-                        .font(.system(size: 60, weight: .bold))
-                        .foregroundColor(.white)
+                    VStack(spacing: 20) {
+                        Text("PAUSED")
+                            .font(.system(size: 60, weight: .bold))
+                            .foregroundColor(.white)
+                        
+                        Text("Tap anywhere to resume")
+                            .font(.title3)
+                            .foregroundColor(.gray)
+                    }
                 }
             }
             .sheet(isPresented: $showingMenu) {
@@ -146,7 +152,7 @@ struct GameView: View {
     private func threePlayerLayout(in size: CGSize) -> some View {
         VStack(spacing: 0) {
             // Top section: 2 players facing each other horizontally
-            HStack(spacing: 20) { // Added spacing of 20
+            HStack(spacing: 40) { // Added spacing of 40
                 // Left player (rotated 90° clockwise - facing right)
                 ZStack {
                     playerRectangle(for: 0, size: CGSize(width: size.height * 0.66 - 20, height: size.width / 2 - 30))
@@ -165,7 +171,7 @@ struct GameView: View {
             
             // Bottom player (normal orientation)
             ZStack {
-                playerRectangle(for: 2, size: CGSize(width: size.width - 40, height: size.height * 0.34 - 20))
+                playerRectangle(for: 2, size: CGSize(width: size.width, height: size.height * 0.3 - 20))
             }
             .frame(width: size.width - 40, height: size.height * 0.34 - 20)
         }
@@ -279,7 +285,7 @@ struct GameView: View {
 
 #Preview {
     let gameState = GameState(
-        playerCount: 4,
+        playerCount: 3,
         initialTime: 1200, // 20 minutes
         playerNames: ["Alice", "Bob", "Charlie", "Diana"],
         startingPlayerIndex: 0

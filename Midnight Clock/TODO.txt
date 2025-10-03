@@ -1,0 +1,15 @@
+//
+//  README.md
+//  Midnight Clock
+//
+//  Created by João Rato on 03/10/2025.
+//
+
+# TODO:
+
+1. Pause and menu buttons in middle of screen
+2. Button to signal death in game
+3. Restart button not working
+4. App Icon
+5. Layouts de 4, 5 e 6 players
+6. Keyboard is covering what we are writing in PlayerNames
