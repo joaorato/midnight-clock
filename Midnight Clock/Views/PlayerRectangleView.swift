@@ -57,16 +57,15 @@ struct PlayerRectangleView: View {
                                     )
                             }
                         }
-                    }
-                }
-                
-                // Eliminate button (skull icon)
-                if !player.isEliminated && isActive {
-                    Button(action: onEliminate) {
-                        Image(systemName: "skull.fill")
-                            .font(.title3)
-                            .foregroundColor(.red.opacity(0.7))
-                            .padding(8)
+                        // Eliminate button (skull icon)
+                        if !player.isEliminated {
+                            Button(action: onEliminate) {
+                                Image(systemName: "xmark")
+                                    .font(.title2)
+                                    .foregroundColor(.red.opacity(0.7))
+                                    .padding(8)
+                            }
+                        }
                     }
                 }
             }

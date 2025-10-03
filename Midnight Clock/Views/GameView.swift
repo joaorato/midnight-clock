@@ -181,7 +181,7 @@ struct GameView: View {
     // MARK: - 4 Player Layout (2v2 facing)
     
     private func fourPlayerLayout(in size: CGSize) -> some View {
-        HStack(spacing: 40) {
+        HStack(spacing: 35) {
             // Left side: 2 players stacked (rotated 90° - readable from left)
             VStack(spacing: 10) {
                 ZStack {
