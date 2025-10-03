@@ -181,24 +181,38 @@ struct GameView: View {
     // MARK: - 4 Player Layout (2v2 facing)
     
     private func fourPlayerLayout(in size: CGSize) -> some View {
-        HStack(spacing: 20) {
-            // Left side (2 players stacked)
-            VStack(spacing: 20) {
-                playerRectangle(for: 0, size: CGSize(width: size.width / 2 - 30, height: size.height / 2 - 30))
-                    .rotationEffect(.degrees(180))
+        HStack(spacing: 40) {
+            // Left side: 2 players stacked (rotated 90° - readable from left)
+            VStack(spacing: 10) {
+                ZStack {
+                    playerRectangle(for: 0, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
+                }
+                .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
+                .rotationEffect(.degrees(90))
                 
-                playerRectangle(for: 2, size: CGSize(width: size.width / 2 - 30, height: size.height / 2 - 30))
-                    .rotationEffect(.degrees(180))
+                ZStack {
+                    playerRectangle(for: 3, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
+                }
+                .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
+                .rotationEffect(.degrees(90))
             }
             
-            // Right side (2 players stacked)
-            VStack(spacing: 20) {
-                playerRectangle(for: 1, size: CGSize(width: size.width / 2 - 30, height: size.height / 2 - 30))
+            // Right side: 2 players stacked (rotated -90° - readable from right)
+            VStack(spacing: 10) {
+                ZStack {
+                    playerRectangle(for: 1, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
+                }
+                .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
+                .rotationEffect(.degrees(-90))
                 
-                playerRectangle(for: 3, size: CGSize(width: size.width / 2 - 30, height: size.height / 2 - 30))
+                ZStack {
+                    playerRectangle(for: 2, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
+                }
+                .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
+                .rotationEffect(.degrees(-90))
             }
         }
-        .padding(20)
+        .frame(width: size.width, height: size.height)
     }
     
     // MARK: - 5 Player Layout (2v2 facing + 1 left)
@@ -285,7 +299,7 @@ struct GameView: View {
 
 #Preview {
     let gameState = GameState(
-        playerCount: 3,
+        playerCount: 4,
         initialTime: 1200, // 20 minutes
         playerNames: ["Alice", "Bob", "Charlie", "Diana"],
         startingPlayerIndex: 0
