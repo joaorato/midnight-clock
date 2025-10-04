@@ -7,8 +7,7 @@
 
 # TODO:
 
-1. Fix 2 player layout: font too big and does 19:...
-2. App Icon
-3. Layouts de 5 e 6 players
-4. Pause and menu buttons in middle of screen
-5. Game history, player history
+1. App Icon
+2. Layouts de 5 e 6 players
+3. Pause and menu buttons in middle of screen
+4. Game history, player history

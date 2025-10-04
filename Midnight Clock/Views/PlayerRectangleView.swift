@@ -116,7 +116,9 @@ struct PlayerRectangleView: View {
     private var timerFontSize: CGFloat {
         // Scale font based on rectangle size
         let baseSize = min(size.width, size.height)
-        return baseSize * 0.35
+        // If the rectangle is very large (like in 2-player mode), cap the font size
+        let calculatedSize = baseSize * 0.35
+        return min(calculatedSize, 100) // Cap at 100 points to prevent overflow
     }
     
     private func uptimeIconColor(for category: UptimeCategory) -> Color {

@@ -299,7 +299,7 @@ struct GameView: View {
 
 #Preview {
     let gameState = GameState(
-        playerCount: 2,
+        playerCount: 4,
         initialTime: 1200, // 20 minutes
         playerNames: ["Alice", "Bob", "Charlie", "Diana"],
         startingPlayerIndex: 0
