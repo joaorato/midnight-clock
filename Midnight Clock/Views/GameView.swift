@@ -84,6 +84,14 @@ struct GameView: View {
                     }
                 )
             }
+            .onChange(of: showingMenu) {
+                // Pause when menu opens, resume when it closes
+                if showingMenu {
+                    gameState.togglePause()
+                } else if gameState.isPaused {
+                    gameState.togglePause()
+                }
+            }
             .onChange(of: gameState.isGameOver) {
                 if gameState.isGameOver {
                     showingEndGame = true
