@@ -12,6 +12,9 @@ struct MenuView: View {
     let onRestart: () -> Void
     let onNewGame: () -> Void
     
+    @State private var showingRestartPicker = false
+    @State private var selectedStartingPlayer = 0
+    
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
@@ -38,10 +41,9 @@ struct MenuView: View {
                 
                 // Restart button (same setup, reselect starting player)
                 Button(action: {
-                    // TODO: Implement restart logic
-                    onRestart()
+                    showingRestartPicker = true
                 }) {
-                    Text("Restart")
+                    Text("Restart Game")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
@@ -80,6 +82,17 @@ struct MenuView: View {
             }
             .padding(40)
             .frame(maxWidth: 500)
+            .alert("Select Starting Player", isPresented: $showingRestartPicker) {
+                ForEach(gameState.players.indices, id: \.self) { index in
+                    Button(gameState.players[index].name.isEmpty ? "Player \(index + 1)" : gameState.players[index].name) {
+                        gameState.restart(startingPlayerIndex: index)
+                        onResume()
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Choose who goes first in the restarted game")
+            }
         }
     }
 }

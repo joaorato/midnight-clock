@@ -152,6 +152,33 @@ class GameState: ObservableObject {
         stopTimer()
     }
     
+    func restart(startingPlayerIndex: Int) {
+        // Reset all players
+        for index in players.indices {
+            players[index].countdownTime = players[index].initialTime
+            players[index].isEliminated = false
+            players[index].isActive = false
+            players[index].activeUptimeCategory = nil
+            players[index].politicsTime = 0
+            players[index].searchTime = 0
+            players[index].rulesTime = 0
+            players[index].shufflingTime = 0
+        }
+        
+        // Set starting player
+        currentPlayerIndex = startingPlayerIndex
+        players[startingPlayerIndex].isActive = true
+        
+        // Reset game state
+        isPaused = false
+        isGameOver = false
+        gameStartTime = Date()
+        lastTickTime = nil
+        
+        // Restart timer
+        startTimer()
+    }
+    
     // MARK: - Statistics
     
     var totalGameTime: TimeInterval {

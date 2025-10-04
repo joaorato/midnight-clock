@@ -7,9 +7,8 @@
 
 # TODO:
 
-1. Pause and menu buttons in middle of screen
-2. Button to signal death in game
-3. Restart button not working
-4. App Icon
-5. Layouts de 5 e 6 players
-6. Keyboard is covering what we are writing in PlayerNames
+1. Keyboard is covering what we are writing in PlayerNames
+2. App Icon
+3. Layouts de 5 e 6 players
+4. Pause and menu buttons in middle of screen
+5. Game history, player history

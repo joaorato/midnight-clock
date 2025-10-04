@@ -84,8 +84,8 @@ struct GameView: View {
                     }
                 )
             }
-            .onChange(of: gameState.isGameOver) { isOver in
-                if isOver {
+            .onChange(of: gameState.isGameOver) {
+                if gameState.isGameOver {
                     showingEndGame = true
                 }
             }
