@@ -152,28 +152,28 @@ struct GameView: View {
     private func threePlayerLayout(in size: CGSize) -> some View {
         VStack(spacing: 0) {
             // Top section: 2 players facing each other horizontally
-            HStack(spacing: 30) { // Added spacing of 40
+            HStack(spacing: 30) { // Added spacing of 30
                 // Left player (rotated 90° clockwise - facing right)
                 ZStack {
-                    playerRectangle(for: 0, size: CGSize(width: size.height * 0.66 - 20, height: size.width / 2 - 40))
+                    playerRectangle(for: 0, size: CGSize(width: size.height * 0.67 - 30, height: size.width / 2 - 40))
                 }
-                .frame(width: size.width / 2 - 30, height: size.height * 0.66 - 20) // Adjusted width to account for spacing
+                .frame(width: size.width / 2 - 30, height: size.height * 0.67 - 30) // Adjusted width to account for spacing
                 .rotationEffect(.degrees(90))
                 
                 // Right player (rotated 90° counter-clockwise - facing left)
                 ZStack {
-                    playerRectangle(for: 1, size: CGSize(width: size.height * 0.66 - 20, height: size.width / 2 - 40))
+                    playerRectangle(for: 1, size: CGSize(width: size.height * 0.67 - 30, height: size.width / 2 - 40))
                 }
-                .frame(width: size.width / 2 - 30, height: size.height * 0.66 - 20) // Adjusted width to account for spacing
+                .frame(width: size.width / 2 - 30, height: size.height * 0.67 - 30) // Adjusted width to account for spacing
                 .rotationEffect(.degrees(-90))
             }
-            .frame(height: size.height * 0.66 - 20)
+            .frame(height: size.height * 0.67 - 20)
             
             // Bottom player (normal orientation)
             ZStack {
-                playerRectangle(for: 2, size: CGSize(width: size.width - 10, height: size.height * 0.3 - 20))
+                playerRectangle(for: 2, size: CGSize(width: size.width - 10, height: size.height * 0.3 - 10))
             }
-            .frame(width: size.width - 40, height: size.height * 0.34 - 20)
+            .frame(width: size.width - 40, height: size.height * 0.32 - 20)
         }
         .frame(width: size.width, height: size.height)
     }
