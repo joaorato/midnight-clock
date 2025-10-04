@@ -7,7 +7,7 @@
 
 # TODO:
 
-1. Keyboard is covering what we are writing in PlayerNames
+1. Fix 2 player layout: font too big and does 19:...
 2. App Icon
 3. Layouts de 5 e 6 players
 4. Pause and menu buttons in middle of screen
