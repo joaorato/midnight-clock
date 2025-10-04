@@ -152,17 +152,17 @@ struct GameView: View {
     private func threePlayerLayout(in size: CGSize) -> some View {
         VStack(spacing: 0) {
             // Top section: 2 players facing each other horizontally
-            HStack(spacing: 40) { // Added spacing of 40
+            HStack(spacing: 30) { // Added spacing of 40
                 // Left player (rotated 90° clockwise - facing right)
                 ZStack {
-                    playerRectangle(for: 0, size: CGSize(width: size.height * 0.66 - 20, height: size.width / 2 - 30))
+                    playerRectangle(for: 0, size: CGSize(width: size.height * 0.66 - 20, height: size.width / 2 - 40))
                 }
                 .frame(width: size.width / 2 - 30, height: size.height * 0.66 - 20) // Adjusted width to account for spacing
                 .rotationEffect(.degrees(90))
                 
                 // Right player (rotated 90° counter-clockwise - facing left)
                 ZStack {
-                    playerRectangle(for: 1, size: CGSize(width: size.height * 0.66 - 20, height: size.width / 2 - 30))
+                    playerRectangle(for: 1, size: CGSize(width: size.height * 0.66 - 20, height: size.width / 2 - 40))
                 }
                 .frame(width: size.width / 2 - 30, height: size.height * 0.66 - 20) // Adjusted width to account for spacing
                 .rotationEffect(.degrees(-90))
@@ -171,7 +171,7 @@ struct GameView: View {
             
             // Bottom player (normal orientation)
             ZStack {
-                playerRectangle(for: 2, size: CGSize(width: size.width, height: size.height * 0.3 - 20))
+                playerRectangle(for: 2, size: CGSize(width: size.width - 10, height: size.height * 0.3 - 20))
             }
             .frame(width: size.width - 40, height: size.height * 0.34 - 20)
         }
@@ -181,9 +181,9 @@ struct GameView: View {
     // MARK: - 4 Player Layout (2v2 facing)
     
     private func fourPlayerLayout(in size: CGSize) -> some View {
-        HStack(spacing: 35) {
+        HStack(spacing: 30) {
             // Left side: 2 players stacked (rotated 90° - readable from left)
-            VStack(spacing: 10) {
+            VStack(spacing: 5) {
                 ZStack {
                     playerRectangle(for: 0, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
                 }
@@ -198,7 +198,7 @@ struct GameView: View {
             }
             
             // Right side: 2 players stacked (rotated -90° - readable from right)
-            VStack(spacing: 10) {
+            VStack(spacing: 5) {
                 ZStack {
                     playerRectangle(for: 1, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
                 }
@@ -215,31 +215,51 @@ struct GameView: View {
         .frame(width: size.width, height: size.height)
     }
     
-    // MARK: - 5 Player Layout (2v2 facing + 1 left)
-    
+    // MARK: - 5 Player Layout (2v2 facing + 1 bottom)
+        
     private func fivePlayerLayout(in size: CGSize) -> some View {
-        HStack(spacing: 20) {
-            // Far left player (perpendicular)
-            playerRectangle(for: 4, size: CGSize(width: size.width * 0.25 - 20, height: size.height - 40))
-                .rotationEffect(.degrees(90))
-            
-            // Left side (2 players stacked)
-            VStack(spacing: 20) {
-                playerRectangle(for: 0, size: CGSize(width: size.width * 0.375 - 25, height: size.height / 2 - 30))
-                    .rotationEffect(.degrees(180))
+        VStack(spacing: 20) {
+            // Top section: 4 players in 2v2 layout
+            HStack(spacing: 30) {
+                // Left side: 2 players stacked (rotated 90° - readable from left)
+                VStack(spacing: 30) {
+                    ZStack {
+                        playerRectangle(for: 0, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                    }
+                    .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                    .rotationEffect(.degrees(90))
+                    
+                    ZStack {
+                        playerRectangle(for: 4, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                    }
+                    .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                    .rotationEffect(.degrees(90))
+                }
                 
-                playerRectangle(for: 2, size: CGSize(width: size.width * 0.375 - 25, height: size.height / 2 - 30))
-                    .rotationEffect(.degrees(180))
+                // Right side: 2 players stacked (rotated -90° - readable from right)
+                VStack(spacing: 30) {
+                    ZStack {
+                        playerRectangle(for: 1, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                    }
+                    .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                    .rotationEffect(.degrees(-90))
+                    
+                    ZStack {
+                        playerRectangle(for: 2, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                    }
+                    .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                    .rotationEffect(.degrees(-90))
+                }
             }
+            .frame(height: size.height * 0.7 - 20)
             
-            // Right side (2 players stacked)
-            VStack(spacing: 20) {
-                playerRectangle(for: 1, size: CGSize(width: size.width * 0.375 - 25, height: size.height / 2 - 30))
-                
-                playerRectangle(for: 3, size: CGSize(width: size.width * 0.375 - 25, height: size.height / 2 - 30))
+            // Bottom player (normal orientation)
+            ZStack {
+                playerRectangle(for: 3, size: CGSize(width: size.width - 10, height: size.height * 0.3 - 20))
             }
+            .frame(width: size.width - 40, height: size.height * 0.3 - 20)
         }
-        .padding(20)
+        .frame(width: size.width, height: size.height)
     }
     
     // MARK: - 6 Player Layout (2v2 facing + 2 on ends)
