@@ -7,6 +7,5 @@
 
 # TODO:
 
-1. Layouts de 6 players
-2. Pause and menu buttons in middle of screen
-3. Game history, player history
+1. Pause and menu buttons in middle of screen
+2. Game history, player history
