@@ -10,6 +10,8 @@ struct EndGameView: View {
     @ObservedObject var gameState: GameState
     let onNewGame: () -> Void
     
+    @State private var showingRestartPicker = false
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -76,20 +78,48 @@ struct EndGameView: View {
                             AggregateStatsView(gameState: gameState)
                         }
                         
-                        // New Game button
-                        Button(action: onNewGame) {
-                            Text("New Game")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.black)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(15)
+                        // Buttons section
+                        VStack(spacing: 15) { // Reduced spacing from default
+                            // Restart button
+                            Button(action: {
+                                showingRestartPicker = true
+                            }) {
+                                Text("Restart Game")
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.orange.opacity(0.8))
+                                    .cornerRadius(15)
+                            }
+                            
+                            // New Game button
+                            Button(action: onNewGame) {
+                                Text("New Game")
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.red.opacity(0.8))
+                                    .cornerRadius(15)
+                            }
                         }
                         .padding(.horizontal, 40)
                         .padding(.bottom, 40)
                     }
+                }
+                .alert("Select Starting Player", isPresented: $showingRestartPicker) {
+                    ForEach(gameState.players.indices, id: \.self) { index in
+                        Button(gameState.players[index].name) {
+                            gameState.restart(startingPlayerIndex: index)
+                            onNewGame() // Close the end game view
+                        }
+                    }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text("Choose who goes first in the restarted game")
                 }
             }
         }
