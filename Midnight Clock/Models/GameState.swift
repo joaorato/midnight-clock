@@ -21,7 +21,7 @@ class GameState: ObservableObject {
                 
         // Initialize all players first
         var initialPlayers = (0..<playerCount).map { index in
-            let name = index < playerNames.count ? playerNames[index] : "Player \(index + 1)"
+            let name = index < playerNames.count && !playerNames[index].isEmpty ? playerNames[index] : "Player \(index + 1)"
             return Player(name: name, initialTime: initialTime, position: positions[index])
         }
         
