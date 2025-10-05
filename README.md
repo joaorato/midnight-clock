@@ -1,4 +1,4 @@
-# ⏱️ Midnight Clock: An MTG Commander Timer
+# ⏱️ Midnight Clock: MTG Commander Timer
 
 A sleek, multiplayer timer app for Magic: The Gathering Commander games, designed to track individual player time while also monitoring non-gameplay activities.
 
