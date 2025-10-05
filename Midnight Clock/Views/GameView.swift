@@ -12,6 +12,7 @@ struct GameView: View {
     
     @State private var showingMenu = false
     @State private var showingEndGame = false
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         GeometryReader { geometry in
@@ -95,6 +96,20 @@ struct GameView: View {
             .onChange(of: gameState.isGameOver) {
                 if gameState.isGameOver {
                     showingEndGame = true
+                }
+            }
+            .onChange(of: scenePhase) {
+                switch scenePhase {
+                case .background, .inactive:
+                    // App going to background or becoming inactive - pause the game
+                    if !gameState.isPaused && !gameState.isGameOver {
+                        gameState.togglePause()
+                    }
+                case .active:
+                    // App becoming active - don't auto-resume, let user decide
+                    break
+                @unknown default:
+                    break
                 }
             }
             .fullScreenCover(isPresented: $showingEndGame) {
