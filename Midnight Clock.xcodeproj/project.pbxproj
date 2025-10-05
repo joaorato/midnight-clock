@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5AD77ED82E92B2BE0077608A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5AD77ED72E92B2BE0077608A /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		5AD77DF72E8F1A4C0077608A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		5AD77DE62E8F1A4B0077608A /* Midnight Clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Midnight Clock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AD77DF62E8F1A4C0077608A /* Midnight ClockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Midnight ClockTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AD77E002E8F1A4C0077608A /* Midnight ClockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Midnight ClockUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AD77ED72E92B2BE0077608A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		5AD77DDD2E8F1A4B0077608A = {
 			isa = PBXGroup;
 			children = (
+				5AD77ED72E92B2BE0077608A /* README.md */,
 				5AD77DE82E8F1A4B0077608A /* Midnight Clock */,
 				5AD77DF92E8F1A4C0077608A /* Midnight ClockTests */,
 				5AD77E032E8F1A4C0077608A /* Midnight ClockUITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AD77ED82E92B2BE0077608A /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
