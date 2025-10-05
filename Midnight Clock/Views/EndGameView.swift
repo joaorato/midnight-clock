@@ -8,6 +8,7 @@ import SwiftUI
 
 struct EndGameView: View {
     @ObservedObject var gameState: GameState
+    let onRestart: () -> Void
     let onNewGame: () -> Void
     
     @State private var showingRestartPicker = false
@@ -114,7 +115,7 @@ struct EndGameView: View {
                     ForEach(gameState.players.indices, id: \.self) { index in
                         Button(gameState.players[index].name) {
                             gameState.restart(startingPlayerIndex: index)
-                            onNewGame() // Close the end game view
+                            onRestart()
                         }
                     }
                     Button("Cancel", role: .cancel) {}
@@ -414,5 +415,5 @@ struct AggregateStatCard: View {
     
     gameState.isGameOver = true
     
-    return EndGameView(gameState: gameState, onNewGame: {})
+    return EndGameView(gameState: gameState, onRestart: {}, onNewGame: {})
 }

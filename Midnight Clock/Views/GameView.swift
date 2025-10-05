@@ -98,10 +98,16 @@ struct GameView: View {
                 }
             }
             .fullScreenCover(isPresented: $showingEndGame) {
-                EndGameView(gameState: gameState, onNewGame: {
-                    gameState.stopTimer()
-                    onExit()
-                })
+                EndGameView(
+                    gameState: gameState,
+                    onRestart: {
+                        showingEndGame = false
+                    },
+                    onNewGame: {
+                        gameState.stopTimer()
+                        onExit()
+                    }
+                )
             }
         }
         .statusBar(hidden: true)
