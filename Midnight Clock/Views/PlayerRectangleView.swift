@@ -49,11 +49,11 @@ struct PlayerRectangleView: View {
                             Button(action: { onTapUptime(category) }) {
                                 Image(systemName: category.iconName)
                                     .font(.title2)
-                                    .foregroundColor(uptimeIconColor(for: category))
+                                    .foregroundColor(.white)
                                     .frame(width: 36, height: 36)
                                     .background(
                                         Circle()
-                                            .fill(player.activeUptimeCategory == category ? Color.white.opacity(0.2) : Color.clear)
+                                            .fill(player.activeUptimeCategory == category ? uptimeBackgroundColor(for: category) : Color.clear)
                                     )
                             }
                         }
@@ -121,11 +121,14 @@ struct PlayerRectangleView: View {
         return min(calculatedSize, 100) // Cap at 100 points to prevent overflow
     }
     
-    private func uptimeIconColor(for category: UptimeCategory) -> Color {
+    private func uptimeBackgroundColor(for category: UptimeCategory) -> Color {
         if player.activeUptimeCategory == category {
-            return .white
+            switch category {
+            case .search: return Color.orange.opacity(0.8)
+            case .shuffling: return Color.yellow.opacity(0.8)
+            }
         }
-        return .white.opacity(0.6)
+        return Color.gray.opacity(0.7)
     }
 }
 

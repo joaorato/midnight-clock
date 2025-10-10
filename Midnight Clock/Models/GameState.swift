@@ -13,6 +13,11 @@ class GameState: ObservableObject {
     @Published var currentPlayerIndex: Int
     @Published var isGameOver: Bool
     
+    // Global uptime trackers
+    @Published var politicsTime: TimeInterval
+    @Published var rulesTime: TimeInterval
+    @Published var activeGlobalCategory: GlobalUptimeCategory?
+    
     private var timer: Timer?
     private var lastTickTime: Date?
     
@@ -34,6 +39,11 @@ class GameState: ObservableObject {
         self.isPaused = false
         self.gameStartTime = Date()
         self.isGameOver = false
+        self.politicsTime = 0
+        self.rulesTime = 0
+        self.activeGlobalCategory = nil
+        self.timer = nil
+        self.lastTickTime = nil
     }
     
     // MARK: - Timer Control
@@ -69,9 +79,18 @@ class GameState: ObservableObject {
         let elapsed = now.timeIntervalSince(lastTick)
         lastTickTime = now
         
+        // Check if tracking global uptime
+        if let globalCategory = activeGlobalCategory {
+            switch globalCategory {
+            case .politics: politicsTime += elapsed
+            case .rules: rulesTime += elapsed
+            }
+            return
+        }
+        
         let activePlayer = players[currentPlayerIndex]
         
-        // Check if tracking uptime
+        // Check if tracking per-player uptime
         if let uptimeCategory = activePlayer.activeUptimeCategory {
             players[currentPlayerIndex].addUptime(elapsed, to: uptimeCategory)
         } else {
@@ -130,6 +149,23 @@ class GameState: ObservableObject {
         }
     }
     
+    func toggleGlobalUptime(_ category: GlobalUptimeCategory) {
+        guard !isPaused, !isGameOver else { return }
+        
+        // Clear any active per-player uptime
+        if players[currentPlayerIndex].activeUptimeCategory != nil {
+            players[currentPlayerIndex].activeUptimeCategory = nil
+        }
+        
+        if activeGlobalCategory == category {
+            // Stop tracking this global uptime
+            activeGlobalCategory = nil
+        } else {
+            // Start tracking this global uptime
+            activeGlobalCategory = category
+        }
+    }
+    
     func eliminatePlayer(at index: Int) {
         players[index].isEliminated = true
         players[index].isActive = false
@@ -159,9 +195,7 @@ class GameState: ObservableObject {
             players[index].isEliminated = false
             players[index].isActive = false
             players[index].activeUptimeCategory = nil
-            players[index].politicsTime = 0
             players[index].searchTime = 0
-            players[index].rulesTime = 0
             players[index].shufflingTime = 0
         }
         
@@ -174,6 +208,9 @@ class GameState: ObservableObject {
         isGameOver = false
         gameStartTime = Date()
         lastTickTime = nil
+        politicsTime = 0
+        rulesTime = 0
+        activeGlobalCategory = nil
         
         // Restart timer
         startTimer()
@@ -185,16 +222,8 @@ class GameState: ObservableObject {
         Date().timeIntervalSince(gameStartTime)
     }
     
-    var totalPoliticsTime: TimeInterval {
-        players.reduce(0) { $0 + $1.politicsTime }
-    }
-    
     var totalSearchTime: TimeInterval {
         players.reduce(0) { $0 + $1.searchTime }
-    }
-    
-    var totalRulesTime: TimeInterval {
-        players.reduce(0) { $0 + $1.rulesTime }
     }
     
     var totalShufflingTime: TimeInterval {

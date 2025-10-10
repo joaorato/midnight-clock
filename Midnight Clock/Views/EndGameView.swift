@@ -190,24 +190,10 @@ struct PlayerStatCard: View {
                 )
                 
                 StatRow(
-                    label: "Politics Time",
-                    value: player.politicsTime.formattedTimer(),
-                    icon: "bubble.left.and.bubble.right.fill",
-                    color: .purple
-                )
-                
-                StatRow(
                     label: "Search Time",
                     value: player.searchTime.formattedTimer(),
                     icon: "magnifyingglass",
                     color: .orange
-                )
-                
-                StatRow(
-                    label: "Rules Time",
-                    value: player.rulesTime.formattedTimer(),
-                    icon: "book.fill",
-                    color: .cyan
                 )
                 
                 StatRow(
@@ -266,10 +252,10 @@ struct AggregateStatsView: View {
         VStack(spacing: 15) {
             AggregateStatCard(
                 title: "Total Politics Time",
-                value: gameState.totalPoliticsTime.formattedTimer(),
+                value: gameState.politicsTime.formattedTimer(),
                 icon: "bubble.left.and.bubble.right.fill",
                 color: .purple,
-                percentage: percentageOf(gameState.totalPoliticsTime)
+                percentage: percentageOf(gameState.politicsTime)
             )
             
             AggregateStatCard(
@@ -282,10 +268,10 @@ struct AggregateStatsView: View {
             
             AggregateStatCard(
                 title: "Total Rules Time",
-                value: gameState.totalRulesTime.formattedTimer(),
+                value: gameState.rulesTime.formattedTimer(),
                 icon: "book.fill",
                 color: .cyan,
-                percentage: percentageOf(gameState.totalRulesTime)
+                percentage: percentageOf(gameState.rulesTime)
             )
             
             AggregateStatCard(
@@ -297,9 +283,9 @@ struct AggregateStatsView: View {
             )
             
             // Total non-gameplay time
-            let totalUptimeAcrossAll = gameState.totalPoliticsTime + 
-                                       gameState.totalSearchTime + 
-                                       gameState.totalRulesTime + 
+            let totalUptimeAcrossAll = gameState.politicsTime +
+                                       gameState.totalSearchTime +
+                                       gameState.rulesTime +
                                        gameState.totalShufflingTime
             
             Divider()
@@ -398,21 +384,23 @@ struct AggregateStatCard: View {
         startingPlayerIndex: 0
     )
     
+    // Simulate game started 30 minutes ago
+    gameState.gameStartTime = Date().addingTimeInterval(-1800)
+    
     // Simulate some game time
     gameState.players[0].countdownTime = 800
-    gameState.players[0].politicsTime = 120
     gameState.players[0].searchTime = 45
     
     gameState.players[1].countdownTime = 0
     gameState.players[1].isEliminated = true
-    gameState.players[1].politicsTime = 90
     
     gameState.players[2].countdownTime = 600
-    gameState.players[2].rulesTime = 180
+    gameState.players[2].shufflingTime = 75
     
     gameState.players[3].countdownTime = 450
-    gameState.players[3].shufflingTime = 75
     
+    gameState.politicsTime = 120
+    gameState.rulesTime = 180
     gameState.isGameOver = true
     
     return EndGameView(gameState: gameState, onRestart: {}, onNewGame: {})

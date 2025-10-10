@@ -16,9 +16,7 @@ struct Player: Identifiable, Codable {
     var position: PlayerPosition // For layout
     
     // Uptime trackers
-    var politicsTime: TimeInterval
     var searchTime: TimeInterval
-    var rulesTime: TimeInterval
     var shufflingTime: TimeInterval
     
     var activeUptimeCategory: UptimeCategory?
@@ -31,9 +29,7 @@ struct Player: Identifiable, Codable {
         self.isActive = false
         self.isEliminated = false
         self.position = position
-        self.politicsTime = 0
         self.searchTime = 0
-        self.rulesTime = 0
         self.shufflingTime = 0
         self.activeUptimeCategory = nil
     }
@@ -48,44 +44,53 @@ struct Player: Identifiable, Codable {
     
     func uptimeFor(category: UptimeCategory) -> TimeInterval {
         switch category {
-        case .politics: return politicsTime
         case .search: return searchTime
-        case .rules: return rulesTime
         case .shuffling: return shufflingTime
         }
     }
     
     mutating func addUptime(_ interval: TimeInterval, to category: UptimeCategory) {
         switch category {
-        case .politics: politicsTime += interval
         case .search: searchTime += interval
-        case .rules: rulesTime += interval
         case .shuffling: shufflingTime += interval
         }
     }
 }
 
 enum UptimeCategory: String, Codable, CaseIterable {
-    case politics
     case search
-    case rules
     case shuffling
     
     var iconName: String {
         switch self {
-        case .politics: return "bubble.left.and.bubble.right"
         case .search: return "magnifyingglass"
-        case .rules: return "book"
         case .shuffling: return "shuffle"
         }
     }
     
     var displayName: String {
         switch self {
-        case .politics: return "Politics"
         case .search: return "Search"
-        case .rules: return "Rules"
         case .shuffling: return "Shuffling"
+        }
+    }
+}
+
+enum GlobalUptimeCategory: String, Codable, CaseIterable {
+    case politics
+    case rules
+    
+    var iconName: String {
+        switch self {
+        case .politics: return "bubble.left.and.bubble.right"
+        case .rules: return "book"
+        }
+    }
+    
+    var displayName: String {
+        switch self {
+        case .politics: return "Politics"
+        case .rules: return "Rules"
         }
     }
 }

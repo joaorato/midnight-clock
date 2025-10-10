@@ -22,36 +22,6 @@ struct GameView: View {
                 // Main game board
                 playerLayout(in: geometry.size)
                 
-                // Top controls overlay
-                VStack {
-                    HStack {
-                        // Menu button
-                        Button(action: { showingMenu = true }) {
-                            Image(systemName: "line.3.horizontal")
-                                .font(.title2)
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.gray.opacity(0.3))
-                                .clipShape(Circle())
-                        }
-                        
-                        Spacer()
-                        
-                        // Pause button
-                        Button(action: { gameState.togglePause() }) {
-                            Image(systemName: gameState.isPaused ? "play.fill" : "pause.fill")
-                                .font(.title2)
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.gray.opacity(0.3))
-                                .clipShape(Circle())
-                        }
-                    }
-                    .padding()
-                    
-                    Spacer()
-                }
-                
                 // Pause overlay
                 if gameState.isPaused {
                     Color.black.opacity(0.7)
@@ -68,6 +38,60 @@ struct GameView: View {
                         Text("Tap anywhere to resume")
                             .font(.title3)
                             .foregroundColor(.gray)
+                    }
+                }
+                
+                // Politics overlay
+                if gameState.activeGlobalCategory == .politics {
+                    Color.purple.opacity(0.7)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            gameState.toggleGlobalUptime(.politics)
+                        }
+                    
+                    VStack(spacing: 20) {
+                        Image(systemName: "bubble.left.and.bubble.right.fill")
+                            .font(.system(size: 80))
+                            .foregroundColor(.white)
+                        
+                        Text("POLITICS")
+                            .font(.system(size: 50, weight: .bold))
+                            .foregroundColor(.white)
+                        
+                        Text(gameState.politicsTime.formattedTimer())
+                            .font(.system(size: 60, weight: .bold, design: .monospaced))
+                            .foregroundColor(.white)
+                        
+                        Text("Tap anywhere to end")
+                            .font(.title3)
+                            .foregroundColor(.white.opacity(0.8))
+                    }
+                }
+                
+                // Rules overlay
+                if gameState.activeGlobalCategory == .rules {
+                    Color.cyan.opacity(0.7)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            gameState.toggleGlobalUptime(.rules)
+                        }
+                    
+                    VStack(spacing: 20) {
+                        Image(systemName: "book.fill")
+                            .font(.system(size: 80))
+                            .foregroundColor(.white)
+                        
+                        Text("RULES DISCUSSION")
+                            .font(.system(size: 36, weight: .bold))
+                            .foregroundColor(.white)
+                        
+                        Text(gameState.rulesTime.formattedTimer())
+                            .font(.system(size: 60, weight: .bold, design: .monospaced))
+                            .foregroundColor(.white)
+                        
+                        Text("Tap anywhere to end")
+                            .font(.title3)
+                            .foregroundColor(.white.opacity(0.8))
                     }
                 }
             }
@@ -154,6 +178,21 @@ struct GameView: View {
         default:
             EmptyView()
         }
+        
+        // Temporary: Show controls in corner for non-3-player layouts
+        if playerCount != 3 {
+            VStack {
+                HStack {
+                    GlobalControlsView(
+                        gameState: gameState,
+                        onMenuTap: { showingMenu = true }
+                    )
+                    Spacer()
+                }
+                Spacer()
+            }
+            .padding(20)
+        }
     }
     
     // MARK: - 2 Player Layout (Top vs Bottom, facing each other)
@@ -197,6 +236,13 @@ struct GameView: View {
                 .rotationEffect(.degrees(-90))
             }
             .frame(height: size.height * 0.67 - 20)
+            
+            // Center controls
+            GlobalControlsView(
+                gameState: gameState,
+                onMenuTap: { showingMenu = true }
+            )
+            .frame(width: size.width * 0.30)
             
             // Bottom player (normal orientation)
             ZStack {
@@ -366,7 +412,7 @@ struct GameView: View {
 
 #Preview {
     let gameState = GameState(
-        playerCount: 4,
+        playerCount: 3,
         initialTime: 1200, // 20 minutes
         playerNames: ["Alice", "Bob", "Charlie", "Diana"],
         startingPlayerIndex: 0

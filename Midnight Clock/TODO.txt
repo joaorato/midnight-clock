@@ -8,5 +8,4 @@
 # TODO:
 
 1. Pause and menu buttons in middle of screen
-2. Rethink uptick buttons (politics and rules could be shared, shuffle and search continue tied to players)
 2. Game history, player history
