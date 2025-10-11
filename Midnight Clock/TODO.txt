@@ -7,5 +7,4 @@
 
 # TODO:
 
-1. Pause and menu buttons in middle of screen
-2. Game history, player history
+1. Game history, player history

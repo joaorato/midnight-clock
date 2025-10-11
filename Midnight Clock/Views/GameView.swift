@@ -178,39 +178,31 @@ struct GameView: View {
         default:
             EmptyView()
         }
-        
-        // Temporary: Show controls in corner for non-3-player layouts
-        if playerCount != 3 {
-            VStack {
-                HStack {
-                    GlobalControlsView(
-                        gameState: gameState,
-                        onMenuTap: { showingMenu = true }
-                    )
-                    Spacer()
-                }
-                Spacer()
-            }
-            .padding(20)
-        }
     }
     
-    // MARK: - 2 Player Layout (Top vs Bottom, facing each other)
+    // MARK: - 2 Player Layout (Top vs Bottom, facing each other + center controls)
         
     private func twoPlayerLayout(in size: CGSize) -> some View {
         VStack(spacing: 0) {
             // Top player (upside down)
             ZStack {
-                playerRectangle(for: 0, size: CGSize(width: size.width - 40, height: size.height / 2 - 20))
+                playerRectangle(for: 0, size: CGSize(width: size.width - 40, height: size.height / 2 - 50))
             }
-            .frame(width: size.width - 40, height: size.height / 2 - 20)
+            .frame(width: size.width - 40, height: size.height / 2 - 50)
             .rotationEffect(.degrees(180))
+            
+            // Center controls
+            GlobalControlsView(
+                gameState: gameState,
+                onMenuTap: { showingMenu = true }
+            )
+            .padding(.vertical, 10)
             
             // Bottom player (normal orientation)
             ZStack {
-                playerRectangle(for: 1, size: CGSize(width: size.width - 40, height: size.height / 2 - 20))
+                playerRectangle(for: 1, size: CGSize(width: size.width - 40, height: size.height / 2 - 50))
             }
-            .frame(width: size.width - 40, height: size.height / 2 - 20)
+            .frame(width: size.width - 40, height: size.height / 2 - 50)
         }
         .frame(width: size.width, height: size.height)
     }
@@ -256,75 +248,90 @@ struct GameView: View {
     // MARK: - 4 Player Layout (2v2 facing)
     
     private func fourPlayerLayout(in size: CGSize) -> some View {
-        HStack(spacing: 30) {
-            // Left side: 2 players stacked (rotated 90° - readable from left)
-            VStack(spacing: 5) {
-                ZStack {
-                    playerRectangle(for: 0, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
-                }
-                .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
-                .rotationEffect(.degrees(90))
-                
-                ZStack {
-                    playerRectangle(for: 3, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
-                }
-                .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
-                .rotationEffect(.degrees(90))
-            }
-            
-            // Right side: 2 players stacked (rotated -90° - readable from right)
-            VStack(spacing: 5) {
-                ZStack {
-                    playerRectangle(for: 1, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
-                }
-                .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
-                .rotationEffect(.degrees(-90))
-                
-                ZStack {
-                    playerRectangle(for: 2, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
-                }
-                .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
-                .rotationEffect(.degrees(-90))
-            }
-        }
-        .frame(width: size.width, height: size.height)
-    }
-    
-    // MARK: - 5 Player Layout (2v2 facing + 1 bottom)
-        
-    private func fivePlayerLayout(in size: CGSize) -> some View {
-        VStack(spacing: 20) {
-            // Top section: 4 players in 2v2 layout
+        ZStack{
             HStack(spacing: 30) {
                 // Left side: 2 players stacked (rotated 90° - readable from left)
-                VStack(spacing: 30) {
+                VStack(spacing: 5) {
                     ZStack {
-                        playerRectangle(for: 0, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                        playerRectangle(for: 0, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
                     }
-                    .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                    .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
                     .rotationEffect(.degrees(90))
                     
                     ZStack {
-                        playerRectangle(for: 4, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                        playerRectangle(for: 3, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
                     }
-                    .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                    .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
                     .rotationEffect(.degrees(90))
                 }
                 
                 // Right side: 2 players stacked (rotated -90° - readable from right)
-                VStack(spacing: 30) {
+                VStack(spacing: 5) {
                     ZStack {
-                        playerRectangle(for: 1, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                        playerRectangle(for: 1, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
                     }
-                    .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                    .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
                     .rotationEffect(.degrees(-90))
                     
                     ZStack {
-                        playerRectangle(for: 2, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                        playerRectangle(for: 2, size: CGSize(width: size.height / 2 - 30, height: size.width / 2 - 30))
                     }
-                    .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                    .frame(width: size.width / 2 - 30, height: size.height / 2 - 30)
                     .rotationEffect(.degrees(-90))
                 }
+            }
+            
+            // Center expandable button
+            CompactControlsView(
+                gameState: gameState,
+                onMenuTap: { showingMenu = true }
+            )
+        }
+    }
+    
+    // MARK: - 5 Player Layout (2v2 facing + 1 bottom + center button)
+        
+    private func fivePlayerLayout(in size: CGSize) -> some View {
+        VStack(spacing: 20) {
+            // Top section: 4 players in 2v2 layout with center button
+            ZStack {
+                HStack(spacing: 30) {
+                    // Left side: 2 players stacked (rotated 90° - readable from left)
+                    VStack(spacing: 30) {
+                        ZStack {
+                            playerRectangle(for: 0, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                        }
+                        .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                        .rotationEffect(.degrees(90))
+                        
+                        ZStack {
+                            playerRectangle(for: 4, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                        }
+                        .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                        .rotationEffect(.degrees(90))
+                    }
+                    
+                    // Right side: 2 players stacked (rotated -90° - readable from right)
+                    VStack(spacing: 30) {
+                        ZStack {
+                            playerRectangle(for: 1, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                        }
+                        .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                        .rotationEffect(.degrees(-90))
+                        
+                        ZStack {
+                            playerRectangle(for: 2, size: CGSize(width: size.height * 0.4 - 30, height: size.width / 2 - 30))
+                        }
+                        .frame(width: size.width / 2 - 30, height: size.height * 0.35 - 20)
+                        .rotationEffect(.degrees(-90))
+                    }
+                }
+                
+                // Center expandable button
+                CompactControlsView(
+                    gameState: gameState,
+                    onMenuTap: { showingMenu = true }
+                )
             }
             .frame(height: size.height * 0.7 - 20)
             
@@ -337,53 +344,68 @@ struct GameView: View {
         .frame(width: size.width, height: size.height)
     }
     
-    // MARK: - 6 Player Layout (3v3 facing)
-    
+    // MARK: - 6 Player Layout (3v3 facing + center button)
+        
     private func sixPlayerLayout(in size: CGSize) -> some View {
-        HStack(spacing: 20) {
-            // Left side: 3 players stacked (rotated 90° - readable from left)
-            VStack(spacing: 20) {
-                ZStack {
-                    playerRectangle(for: 0, size: CGSize(width: size.height / 3 - 60, height: size.width / 2 - 20))
+        VStack(spacing: 0) {
+            // Top 4 players (2v2) with center button
+            ZStack {
+                HStack(spacing: 30) {
+                    // Left side: 2 players stacked (rotated 90° - readable from left)
+                    VStack(spacing: 20) {
+                        ZStack {
+                            playerRectangle(for: 0, size: CGSize(width: size.height / 3 - 0, height: size.width / 2 - 30))
+                        }
+                        .frame(width: size.width / 2 - 30, height: size.height / 3 - 20)
+                        .rotationEffect(.degrees(90))
+                        
+                        ZStack {
+                            playerRectangle(for: 5, size: CGSize(width: size.height / 3 - 0, height: size.width / 2 - 30))
+                        }
+                        .frame(width: size.width / 2 - 30, height: size.height / 3 - 20)
+                        .rotationEffect(.degrees(90))
+                    }
+                    
+                    // Right side: 2 players stacked (rotated -90° - readable from right)
+                    VStack(spacing: 20) {
+                        ZStack {
+                            playerRectangle(for: 1, size: CGSize(width: size.height / 3 - 0, height: size.width / 2 - 30))
+                        }
+                        .frame(width: size.width / 2 - 30, height: size.height / 3 - 20)
+                        .rotationEffect(.degrees(-90))
+                        
+                        ZStack {
+                            playerRectangle(for: 2, size: CGSize(width: size.height / 3 - 0, height: size.width / 2 - 30))
+                        }
+                        .frame(width: size.width / 2 - 30, height: size.height / 3 - 20)
+                        .rotationEffect(.degrees(-90))
+                    }
                 }
-                .frame(width: size.width / 2 - 20, height: size.height / 3 - 20)
-                .rotationEffect(.degrees(90))
                 
-                ZStack {
-                    playerRectangle(for: 2, size: CGSize(width: size.height / 3 - 20, height: size.width / 2 - 20))
-                }
-                .frame(width: size.width / 2 - 20, height: size.height / 3 - 20)
-                .rotationEffect(.degrees(90))
-                
-                ZStack {
-                    playerRectangle(for: 4, size: CGSize(width: size.height / 3 - 20, height: size.width / 2 - 20))
-                }
-                .frame(width: size.width / 2 - 20, height: size.height / 3 - 20)
-                .rotationEffect(.degrees(90))
+                // Center expandable button (between top 4 players)
+                CompactControlsView(
+                    gameState: gameState,
+                    onMenuTap: { showingMenu = true }
+                )
             }
+            .frame(height: size.height * 0.66)
             
-            // Right side: 3 players stacked (rotated -90° - readable from right)
-            VStack(spacing: 20) {
+            // Bottom 2 players
+            HStack(spacing: 30) {
                 ZStack {
-                    playerRectangle(for: 1, size: CGSize(width: size.height / 3 - 20, height: size.width / 2 - 20))
+                    playerRectangle(for: 4, size: CGSize(width: size.height / 3 - 0, height: size.width / 2 - 30))
                 }
-                .frame(width: size.width / 2 - 20, height: size.height / 3 - 20)
-                .rotationEffect(.degrees(-90))
+                .frame(width: size.width / 2 - 30, height: size.height / 3 - 20)
+                .rotationEffect(.degrees(90))
                 
                 ZStack {
-                    playerRectangle(for: 3, size: CGSize(width: size.height / 3 - 20, height: size.width / 2 - 20))
+                    playerRectangle(for: 3, size: CGSize(width: size.height / 3 - 0, height: size.width / 2 - 30))
                 }
-                .frame(width: size.width / 2 - 20, height: size.height / 3 - 20)
-                .rotationEffect(.degrees(-90))
-                
-                ZStack {
-                    playerRectangle(for: 5, size: CGSize(width: size.height / 3 - 20, height: size.width / 2 - 20))
-                }
-                .frame(width: size.width / 2 - 20, height: size.height / 3 - 20)
+                .frame(width: size.width / 2 - 30, height: size.height / 3 - 20)
                 .rotationEffect(.degrees(-90))
             }
+            .frame(height: size.height * 0.34)
         }
-        .frame(width: size.width, height: size.height)
     }
     
     // MARK: - Player Rectangle Helper
@@ -412,7 +434,7 @@ struct GameView: View {
 
 #Preview {
     let gameState = GameState(
-        playerCount: 3,
+        playerCount: 4,
         initialTime: 1200, // 20 minutes
         playerNames: ["Alice", "Bob", "Charlie", "Diana"],
         startingPlayerIndex: 0
